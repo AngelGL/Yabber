@@ -1,0 +1,73 @@
+<div class="genericform">
+{% if errors %}
+    {% for e in errors %}
+        <div class="form-error-submit">&nbsp;&nbsp;{{ e }}</div>
+    {% endfor %}
+{% endif %}
+
+<form method="post" id="thisform" name="thisform" >
+<input type="hidden" name="id" value="{{ sub.id }}"/>
+<input type="hidden" name="u" value="{{ current_user.user_id }}"/>
+<input type="hidden" name="created_from" value="{{ site.id }}"/>
+
+
+<fieldset><legend>
+	{% trans _('Moderadores') %} <a href="{{ sub.base_url }}p/{{ sub.name }}">{{ sub.name }}</a>
+
+</legend>
+
+     <img id="u1_avatar" alt="avatar 1"
+     {% if options.u1 %}
+       src="{{ globals.base_url }}backend/get_avatar.php?user={{ options.u1 }}&amp;size=20"
+       style="vertical-align:text-bottom"
+     {% else %}
+       src="{% exec get_no_avatar_url 20 %}"
+       style="vertical-align:text-bottom;visibility:hidden"
+     {% endif %}
+     class="avatar"
+     width="20" height="20"/>
+     <input type="text" name="u1" id="u1" value="{{ options.u1 }}" size="12" class="ac_user"/>
+
+<input class="button" type="submit" value="{% trans _('Añadir') %}" />
+</form>
+
+</div>
+</fieldset>
+
+<div style="max-width: 500px; margin: 0 auto">
+<ul class="plataformas">
+{% for s in mods %}
+
+<div id="mod_{{s.user_id}}">
+<ul class="plataforma-hosts" style="float:left">
+  <li class="user plataforma-hosts--host">
+
+    {% if s.user_id %}
+    <img width="25" height="25" data-src="{% exec get_avatar_url s.user_id, s.user_avatar, 25, false %}" data-2x="s:-20.:-40." alt="" src="{{ globals.base_static }}img/g.gif" class="tooltip u:{{ s.user_id }} avatar lazy"/>&nbsp;
+    {% else %}
+    <img width="25" height="25" data-src="{% exec get_no_avatar_url 25, false %}" data-2x="s:-20.:-40." alt="" src="{{ globals.base_static }}img/g.gif" class="avatar lazy"/>&nbsp;
+  {% endif %}
+  </a>
+  </li>
+</ul>
+
+	<li class="plataforma plataforma" style="clear: inherit">
+
+			<div class="plataforma-info" style="margin-left: 15px">
+			  <a class="plataforma-info--title" href="{{globals.base_url_general}}p/{{ s.name }}">{{ s.user_login }}</a>
+			</div>
+
+      <div class="plataforma-date">
+    <span style="margin:0 1px" onclick="delete_mod_sub({{ sub.id }}, {{s.user_id}})" class="delete-mod" title="eliminar moderador"></span>
+</div>
+
+	</li>
+</div>
+{% endfor %}
+</ul>
+</div>
+
+
+<script type="text/javascript">
+	addPostCode('$(".ac_user").user_autocomplete();');
+</script>

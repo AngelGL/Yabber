@@ -1,0 +1,57 @@
+<li>
+	<div class="post-element">
+
+			<a class="i-post-element post-vote-button">
+
+			<span class="post-vote-button--arrow" >
+				<span class="chincheta"></span>
+			</a>
+
+
+			{% if self.thumb_uri && not globals.mobile %}
+			<a href="{{ self.media_url }}" class="fancybox post-element--thumbnail wide" title="{% trans _('miniatura') %}"><img data-2x='s:thumb:thumb_2x:' data-src='{{ self.thumb_uri }}' src="{{ globals.base_static }}img/g.gif" alt='' class='lazy wide'/></a>
+			{% endif %}
+
+
+
+			<div class="post-element--text" >
+				<a class="post-element--text--title {% if self.recent %}recent{% endif %}" href="
+					{% exec self.get_permalink %}">{{self.title}}</a>
+					<a href="{% exec self.get_permalink %}/standard/{{self.last_page}}#c-{{ self.comments }}"><span class="fa last-page"></i></a>
+
+			<span class="post-element--text--web">{{ self.url_str }}</span>
+
+			<div class="post-element--platforms">
+			<a href="{{ globals.base_url_general }}p/{{ self.sub_name }}"
+			><span class="post-element--platform" {% if self.sub_owner > 0 %}
+				style="
+					{% if self.sub_color1 %}color:{{ self.sub_color1 }} !important;{% endif %}
+					{% if self.sub_color2 %}background-color:{{ self.sub_color2 }} !important; border-color: {{ self.sub_color2 }}{% endif %}
+				"
+			{% endif %}
+			>{{ self.sub_name }}</span></a>
+
+			{% exec explode "," self.tags as tags_array %}
+			{% for id, tag in tags_array %}{% if id > 0 %}{% endif %}<a href='{{ globals.base_url }}search?p=tags&amp;q={{ tag|urlencode }}'><span class="post-element--tags">{{ tag }}</span></a>{% endfor %}
+			</div></div>
+
+			<div >
+				<span class="post-element--action i-user wide">
+					<a href="{{ self.username | useruri }}" class="tooltip u:{{ self.author }}">
+						<img src="{{ globals.base_static }}img/g.gif" data-src="{% exec get_avatar_url self.author, self.avatar, 25, false %}" data-2x="s:-25.:-40." alt="" class="lazy wide"/>
+					</a>
+				</span>
+				<a class="post-element--action i-comments" href="{% exec self.get_permalink %}" >
+					<span style="margin-right: 0px">
+						<svg width="19" height="17" viewBox="0 0 19 17" xmlns="http://www.w3.org/2000/svg"><title>Oval 42</title><defs><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="b"><stop stop-color="#CCC" offset="0%"></stop><stop stop-color="#BABABA" offset="100%"></stop></linearGradient><filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="a"><feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset><feGaussianBlur stdDeviation=".5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur><feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.070000001 0" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix><feMerge><feMergeNode in="shadowMatrixOuter1"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter></defs><path d="M1.753 18.06C.66 16.996 0 15.623 0 14.125 0 10.742 3.358 8 7.5 8c4.142 0 7.5 2.742 7.5 6.125s-3.358 6.125-7.5 6.125c-1.03 0-2.01-.17-2.904-.476-1.46.845-4.318 1.962-4.318 1.962s.955-2.298 1.475-3.676z" transform="translate(2 -7)" filter="url(#a)" stroke="url(#b)" fill="#FFF" fill-rule="evenodd"></path></svg>
+					</span>
+					<span>{{ self.comments }}</span>
+				</a>
+			</div>
+
+			<div>
+				<span data-ts="{{ self.last_comment }}" class="ts visible postMetaInline" title="{% trans _('enviado') %}: ">____</span>
+			</div>
+
+
+</li>

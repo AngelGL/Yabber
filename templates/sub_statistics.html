@@ -1,0 +1,12 @@
+
+{% if this_site.sub %}
+
+
+
+
+  <div class="sub-statistics"><div class="header"> <h4>{{this_site.name}}</h4> </div>
+
+  <div style="color: #bbb">{% exec print_follow_sub this_site.id as dummy %} <a class="fancybox" href="/backend/get_platform_suscriptors.php?id={{ this_site.id }}&number={{ subscriptors }}">{{ subscriptors }} suscriptores</a></div></div>
+
+
+ {% endif %}

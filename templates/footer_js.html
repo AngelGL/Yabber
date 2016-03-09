@@ -1,0 +1,48 @@
+{% if globals.extra_js %}
+	<script type="text/javascript">
+	{% for js in globals.extra_js %}
+    	{% if js|substr:"0, 4" == 'http' || js|substr:"0, 2" == '//' %}
+        	postJavascript.push("{{js}}");
+    	{% else %}
+        	postJavascript.push("{{globals.base_static}}js/{{js}}");
+    	{% endif %}
+	{% endfor %}
+	</script>
+{% endif %}
+
+{% if ! globals.partial %}
+<!--[if lt IE 9]>
+<script src="{{ globals.jquery }}"></script>
+<![endif]-->
+<!--[if gte IE 9]><!-->
+<script src="{{ globals.jquery2 }}" type="text/javascript"></script>
+<!--<![endif]-->
+
+<script src="{{ globals.base_url_general }}v_{{ globals.v }}/js/{{globals.js_main}}" type="text/javascript" charset="utf-8"></script>
+{% endif %}
+
+<script>
+  $(function() {
+    $('spoiler').spoilerAlert();
+		$('.spoiler').spoilerAlert({max: 20, partial: 6});
+		$('comunia').getTeam();
+  })
+  </script>
+
+
+{# Include Google Adsense Async javascript #}
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-67230270-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+{% if globals.mobile AND globals.ads %}
+{% try_include 'private/ad-google-async.html' %}
+{% endif %}

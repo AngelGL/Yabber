@@ -1,0 +1,16 @@
+<ul class="subheader">
+{% for item in items %}
+    <li {% if item.id == option OR item.selected %}class="selected"{% endif %}>
+            <a href="{{globals.base_url}}{{item.url}}">{{ item.title }}</a>
+    </li>
+{% endfor %}
+
+{% if feed %}
+    <li class="icon wideonly">
+        <a href="{{globals.base_url}}rss{{feed.url}}" title="{{feed.title}}" >
+            <span class="rss-icon" alt="rss2"></span>
+        </a>
+    </li>
+{% endif %}
+
+</ul>

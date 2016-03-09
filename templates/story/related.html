@@ -1,0 +1,19 @@
+<div style="margin-left: 40px;margin-top: 30px">
+{% if link.old %}
+<h3>{% trans _('envíos que fueron similares') %}</h3>
+{% else %}
+<h3>{% trans _('envíos posiblemente similares') %}</h3>
+{% endif %}
+
+{% for l in related %}
+	<div class="post-card">
+		<a class="post-card--link" target="_blank" href="{{l.permalink}}">
+			{% if l.thumb %}<div class="post-card--image" style="background-image:url({{ l.thumb }});"></div>{% endif %}
+
+				<section class="post-card--text">
+					<header><h1 class="post-card--heading">{{ l.title }}</h1></header>
+				</section>
+		</a>
+	</div><br/>
+{% endfor %}
+</div>

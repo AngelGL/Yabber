@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="{{globals.lang}}" prefix="og: http://ogp.me/ns#">
+
+{% if ! globals.partial %}
+<head>
+<meta charset="utf-8" />
+
+<meta name="ROBOTS" content="NOARCHIVE" />
+<meta name="generator" content="meneame" />
+<meta name="referrer" content="always">
+
+<meta name="viewport" content="width=device-width, initial-scale=1{% if globals.mobile %}, user-scalable=no{% endif %}"/>
+
+{# Save bandwidth for mobiles #}
+{% if not globals.mobile %}
+
+{% if globals.css_webfonts %}
+	<link href="{{ globals.css_webfonts }}" rel="stylesheet" type="text/css">
+{% endif %}
+
+{% if globals.noindex %}
+	<meta name="robots" content="noindex,nofollow" />
+{% endif %}
+
+{% if globals.tags %}
+	<meta name="keywords" content="{{globals.tags}}" />
+{% endif %}
+
+{% if globals.description %}
+	<meta name="description" content="{{globals.description}}" />
+{% endif %}
+
+{% if globals.permalink AND title %}
+	{# Twitter Card #}
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="{{title}}">
+	{% if globals.twitter_user %}
+		<meta name="twitter:site" content="@{{globals.twitter_user}}">
+	{% endif %}
+	{% if globals.thumbnail %}
+   		<meta property="og:image" content="http://i.imgur.com/J7Zwi5t.png?1"/>
+   		<meta name="twitter:image" content="{{globals.thumbnail}}"/>
+	{% endif %}
+	<meta property="og:url" content="{{ globals.permalink }}">
+	<meta property="og:title" content="{{title}}">
+	<meta property="og:description" content="Nueva red social española que sigue la filosofía de reddit">
+{% endif %}
+
+<link rel="search" type="application/opensearchdescription+xml" title="{% trans _('búsqueda')%}" href="{{ globals.scheme }}//{{globals.server_name}}{{ globals.base_url_general }}opensearch"/>
+<link rel="alternate" type="application/rss+xml" title="{% trans _('publicadas')%}" href="//{{globals.server_name}}{{ globals.base_url }}rss" />
+<link rel="alternate" type="application/rss+xml" title="{% trans _('pendientes')%}" href="//{{globals.server_name}}{{ globals.base_url }}rss?status=queued" />
+
+{% endif %}
+{# /Save bandwidth for mobiles #}
+
+
+<title>{{title}}</title>
+
+
+{% if globals.css_main %}
+	<link rel="stylesheet" type="text/css" media="all" href="{{ globals.base_url_general }}v_{{ globals.v }}/css/{{globals.css_main}}"/>
+{% endif %}
+
+{% for css in globals.extra_css %}
+<link rel="stylesheet" type="text/css" media="all" href="{{globals.base_static}}css/{{css}}"/>
+{% endfor %}
+
+{# <meta name="mobile-web-app-capable" content="yes"> #}
+{% if globals.favicon %}
+	<link rel="shortcut icon" href="{{globals.base_static}}{{globals.favicon}}" type="image/x-icon"/>
+{% else %}
+	<link rel="shortcut icon"  href="{{globals.base_static}}img/favicons/logo_196x196.png" type="image/png" sizes="196x196"/>
+	<link rel="shortcut icon"  href="{{globals.base_static}}img/favicons/logo_128x128.png" type="image/png" sizes="128x128"/>
+	<link rel="shortcut icon"  href="{{globals.base_static}}img/favicons/logo_64x64.png" type="image/png" sizes="64x64"/>
+	<link rel="shortcut icon" href="{{globals.base_static}}img/favicons/logo_16x16.png" type="image/png" sizes="16x16"/>
+{% endif %}
+
+<link rel="apple-touch-icon" href="{{globals.base_static}}img/favicons/apple-touch-icon.png"/>
+<link rel="license" href="http://creativecommons.org/licenses/by/3.0/es/"/>
+
+{#
+<script src="{{ globals.base_url_general }}js/{{globals.js_basic}}" type="text/javascript" charset="utf-8"></script>
+#}
+
+{% if globals.extra_head %}
+	{{ globals.extra_head}}
+{% endif %}
+
+</head>
+<body class="login">
+
+<div id="variable">
+{% else %} {# PARTIAL partial #}
+<span id="ajaxinfo"
+	data-partial="1"
+	data-uri="{{ globals.uri|escape }}"
+	data-uid="{{ current_user.user_id }}"
+	data-title="{{ title }}">
+</span>
+{% endif %} {# PARTIAL partial #}
+
+<script type="text/javascript">
+	{% include 'js/basic.js' %}
+</script>
+
+
+<div id="wrap" style="background: none">
+{% exec do_banner_top as foo%}
+<div id="container">

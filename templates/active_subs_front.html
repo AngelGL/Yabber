@@ -1,0 +1,8 @@
+        <ul class="active-subs-front">
+          <i class="fa fa-fire" style="color: #d14836"></i> Plataformas activas del momento:
+        {% for sub in subs %}
+            <li style="display: inline !important">
+              <a href={{sub.base_url}}p/{{sub.name}}>/p/{{sub.name}}</a>
+            </li>
+        {% endfor %}
+		</ul>

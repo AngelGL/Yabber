@@ -1,0 +1,155 @@
+{% if globals.mobile %}
+	{% if type == 'full' %}
+		{% if self.thumb_uri %}
+		<a href="{{ self.media_url }}" class="fancybox post-element--thumbnail--mobile" title="{% trans _('miniatura') %}"><img data-2x='s:thumb:thumb_2x:' data-src='{{ self.thumb_uri }}' src="{{ globals.base_static }}img/g.gif" alt='' class='lazy'/></a>
+		{% endif %}
+	{% endif %}
+{% endif %}
+
+<li {% if globals.mobile && type == 'short' %}onclick="location.href='{{ self.permalink }}';"{% endif %}>
+	<div class="post-element">
+
+			<a {% if not self.voted %}class="i-post-element post-vote-button" href="javascript:menealo({{ current_user.user_id}}, {{self.id}})"{% else %}class="i-post-element post-vote-button m-upvoted"{% endif %} id="a-shake-{{ self.id }}">
+
+			<span class="post-vote-button--arrow" >
+			{% if not self.votes_enabled OR self.status == 'closed'%}
+				<i class="fa fa-lock" style="color: #000000"></i>
+			{% else %}
+				<span class="vote-up"></span>
+			</span>{% endif %}<span id="a-votes-{{ self.id}}" class="post-vote-button--count" >{{ self.total_votes }}</span></a>
+
+
+			{% if self.thumb_uri && not globals.mobile && type != 'full' %}
+			<a href="{{ self.media_url }}" class="fancybox post-element--thumbnail wide" title="{% trans _('miniatura') %}"><img data-2x='s:thumb:thumb_2x:' data-src='{{ self.thumb_uri }}' src="{{ globals.base_static }}img/g.gif" alt='' class='lazy wide'/></a>
+			{% endif %}
+
+
+
+			<div class="post-element--text" >
+			{% if type != 'short' %}
+					<a class="post-element--text--title {% if self.recent %}recent{% endif %}" style="font-size: 25px; line-height: 25px">{{self.title}}</a>
+			{% else %}
+				<a class="post-element--text--title {% if self.recent %}recent{% endif %}" href="
+					{{ self.permalink }}">{{self.title}}</a>
+				<a href="{{ self.permalink }}/c0{{ self.comments }}#c-{{ self.comments }}"><span class="fa last-page"></i></a>
+
+					<span class="post-element--text--web">{{ self.url_str }}</span>
+			{% endif %}
+
+			<div class="post-element--platforms">
+			<a href="{{ globals.base_url_general }}p/{{ self.sub_name }}"
+			><span class="post-element--platform" {% if type == 'full' %}
+				style="
+					{% if self.sub_color1 %}color:{{ self.sub_color1 }} !important;{% endif %}
+					{% if self.sub_color2 %}background-color:{{ self.sub_color2 }} !important; border-color: {{ self.sub_color2 }}{% endif %}
+				"
+			{% endif %}
+			>{{ self.sub_name }}</span></a>
+
+			{% if type == 'full' %}
+			{% exec explode "," self.tags as tags_array %}
+			{% for id, tag in tags_array %}{% if id > 0 %}{% endif %}<a href='{{ globals.base_url }}search?p=tags&amp;q={{ tag|urlencode }}'><span class="post-element--tags">{{ tag }}</span></a>{% endfor %}
+			{% endif %}
+			</div></div>
+
+			<div >
+
+				{% if type != 'full' %}
+				<span class="post-element--action wide">
+				<span id="favl-{{ self.id }}" onclick="add_remove_fav('favl-{{ self.id }}', 'link', {{ self.id }})" {% if self.favorite %} class="fa bookmark on" {% else %} class="fa bookmark" {% endif %} ></span>
+				</span>
+			{% endif %}
+
+				<span class="post-element--action i-user wide">
+					<a href="{{ self.username | useruri }}/history" class="tooltip u:{{ self.author }}">
+						<img src="{{ globals.base_static }}img/g.gif" data-src="{% exec get_avatar_url self.author, self.avatar, 25, false %}" data-2x="s:-25.:-40." alt="" class="lazy wide"/>
+					</a>
+				</span>
+
+				<a class="post-element--action i-comments {% if self.replied %}replied{% endif %}" href="{{ self.relative_permalink }}" >
+					<span style="margin-right: 0px">
+						<svg width="19" height="17" viewBox="0 0 19 17" xmlns="http://www.w3.org/2000/svg"><title>Oval 42</title><defs><linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="b"><stop stop-color="#CCC" offset="0%"></stop><stop stop-color="#BABABA" offset="100%"></stop></linearGradient><filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="a"><feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset><feGaussianBlur stdDeviation=".5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur><feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.070000001 0" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix><feMerge><feMergeNode in="shadowMatrixOuter1"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter></defs><path d="M1.753 18.06C.66 16.996 0 15.623 0 14.125 0 10.742 3.358 8 7.5 8c4.142 0 7.5 2.742 7.5 6.125s-3.358 6.125-7.5 6.125c-1.03 0-2.01-.17-2.904-.476-1.46.845-4.318 1.962-4.318 1.962s.955-2.298 1.475-3.676z" transform="translate(2 -7)" filter="url(#a)" stroke="url(#b)" fill="#FFF" fill-rule="evenodd"></path></svg>
+					</span>
+					<span>{{ self.comments }}</span>
+				</a>
+			</div>
+			<div>
+
+				{% if type != 'full' %}
+				<span data-ts="{{ self.last_comment }}" class="ts visible postMetaInline" title="{% trans _('enviado') %}: ">____</span>
+				{% else %}
+				<span id="favl-{{ self.id }}" onclick="add_remove_fav('favl-{{ self.id }}', 'link', {{ self.id }})" {% if self.favorite %} class="fa bookmark on" {% else %} class="fa bookmark" {% endif %} ></span>
+				{% endif%}
+
+			</div>
+
+
+				{% if type == 'full' %}
+					{% if self.is_editable %}
+				&nbsp;&nbsp;<a href="{% get_url 'editlink?id=' self.id '&amp;user=' current_user.user_id %}" title="{% trans _('editar noticia') %} #{{ self.id }}"><span class="icon-edit-link"></span></a>
+					{% endif %}
+				{% endif %}
+
+
+</li>
+
+{% if type == 'full' || type == 'preview' %}
+
+
+<div class="postMeta">
+	<span  style="margin-right:4px">por <a href="{{ self.username | useruri }}">{{self.username}}</a> el</span>
+<span data-ts="{{ self.sent_date }}" class="ts visible postMeta" title="{% trans _('enviado') %}: ">____</span>
+</div>
+
+<div class="postArticle-content">
+	{{ self.content }}
+	{% set link = self.permalink %}
+	{% set title = self.title %}
+	<span style="float: right">{% include "share.html" %}</span>
+</div>
+
+
+{% if self.url %}
+<h3 class="section--heading">Enlace adjunto</h3>
+<div class="post-card">
+	<a class="post-card--link" target="_blank" href="{{self.url}}">
+		{% if self.thumb_uri %}<div class="post-card--image" style="background-image:url(http://titulares.in/{{ self.thumb_uri }});"></div>{% endif %}
+
+			<section class="post-card--text">
+				<header><h1 class="post-card--heading">{{ self.title }}</h1></header><p class="post-card--description">{{self.url_str}}</p>
+			</section>
+	</a>
+</div>
+{% endif %}
+
+{% if globals.ads %}
+
+		{% if globals.mobile %}
+			<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+			<!-- dvm-interlinks-mobile -->
+			<ins class="adsbygoogle"
+				style="display:inline-block;width:320px;height:100px"
+				data-ad-client="ca-pub-0158894246177946"
+				data-ad-slot="9582901074"></ins>
+			<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+			</script>
+
+
+		{% else %}
+			<div class="ads-story">
+			<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+			<!-- Dvm-interlinks -->
+			<ins class="adsbygoogle"
+					style="display:inline-block;width:728px;height:90px"
+					data-ad-client="ca-pub-0158894246177946"
+					data-ad-slot="1280905077"></ins>
+			<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+			</script>
+		</div>
+		{% endif %}
+
+{% endif %}
+
+{% endif %}

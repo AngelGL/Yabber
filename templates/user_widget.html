@@ -1,0 +1,71 @@
+		<div class="DashboardProfileCard">
+		<div class="DashboardProfileCard--avatar">
+		<a href="{{ user.username | useruri }}"><img id="avatar" class="user-image" src="{% exec get_avatar_url user.id, user.avatar, 80 %}" width="80" height="80" alt="{{user.username}}" title="avatar" /></a>
+		</div>
+
+		<h1 class="DashboardProfileCard--title">
+			{% if user.names %}
+			{{user.names}}
+			{% else %}
+			{{user.username}}
+			{% endif %}
+
+			{% if user.verified=='yes' %}
+			&nbsp;<img class="verificado" width="20" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAB3UlEQVRIx51WPUvDUBR1yCAODsVBxEHEycGxOPgrxN/hD3AQOoj9UItCceokHTqG/oJuvkTpIJ2KSIciDiKF2iSUUs9JGpu8vqRJHlx6e3Pvue+ed3Nf1tYSrpKwz4rCfqNQTxqnXBXDygHktCSsfMUYb0M/B/CkKJyZJ/aENu+ZlacvYxKBl4W1D4Cv62fbBeNvEp0xjF2ZAI4VPzitMDZJAnNBRVqxzRjexztweExDi0onBrHkXV9Cphlp+YHItikx/UPd9QyZKOnzYNFFF0wiPZsSm/19mJGKPlrzv2u8JPARCx9i+xR1U9ISAr9/GWmwNSSfbvAMdEX5QwKpaAmBv4407LSh8NP9t3YLf76l8ofg77hsWHvQP6JoeZiDh2n0hJjE5u5bcgcA+CQwNtwkq8AjqGwxgaMor3lr/mrBJMloWcJxmEBEzJZQknhaVBS5CQTfgwMonYgSm3fmSEtDSyC2Q2x/TGzCMIgo060kOS1uzICY8rh4ihnFzXhawhQRSzVF9axjWkGPrkpQyD6mlygqqMb1Oh7UIZ9srww3mjOPrRMr9tK5McYbcKyloKTGmJW3WXBVTXeA9aTSZ4qx3KsGWjnVwhfDEQDakHfIFXaZo1Cf29r0icP4A2ufTpm/hVFnAAAAAElFTkSuQmCC"/>
+			{% endif %}
+
+		<div class="DashboardProfileCard--username">@{{ user.username }}</div>
+		{% if friend_icon %}
+				&nbsp;<a id="friend-{{current_user.user_id}}-{{user.id}}" href="javascript:get_votes('get_friend.php','{{current_user.user_id}}','friend-{{current_user.user_id}}-{{user.id}}',0,'{{user.id}}')">{{ friend_icon }}</a>
+
+		{% endif %}
+
+
+		</h1>
+
+		{% if !isCurrentUser %}
+		{% if user.bio %}
+		<div class="DashboardProfileCard--bio">
+		{% exec text_to_html user.bio %}
+		</div>
+		{% endif %}
+		{% endif %}
+
+		{% if user.friendship > 0 %}
+			<span style="cursor:pointer" class="user-page-header--url" onClick="priv_new({{ user.id }})" >
+		<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA9ElEQVQ4y2NgGHCw9ML9iCUX7j8F4rck4udAvVEMyy/c4wEyzIACD4H4P5EYpNYCqJeLYcmFe1eXXrinATREBCi4nQjNO0FqgXrUgHovgwwACt77DMRhqy7dZwIqqAPiv1g0gsTqIGruhQHxR5BeqAEgBWCDJi+/eI8NaIMbUOw1kubXIDGQHFDNRGQ9SAZAMFBhCihwl124LwPkHwdhEBsa4GmorsI0oB2kEEg3g2xccfE+GwhDXdQIlevGYcA9mOZ+JD83QjEsTHohau51oxmAoRkfRjIEaMBS0jSjG9LJQIZmFENAIVtFRjKG4YqBzooMDADQ1jCQI+bB6QAAAABJRU5ErkJggg=="/>
+		</span>
+		{% endif %}
+
+
+		{% if !isCurrentUser %}
+		{% if url %}
+		<div style="padding-left: 15px; margin-bottom: 6px"><i class="fa fa-link" style="font-size:16px;color: #8899a6"></i> <a class="DashboardProfileCard--url" href="{{url}}" target="_blank">{{sourceUrl}}</a></div>
+		{% endif %}
+
+		<div style="padding-left: 15px; margin-bottom: 6px"><i class="fa fa-clock-o" style="font-size:16px;color: #8899a6"></i> Se unió {% exec get_date user.date %}</div>
+		{% endif %}
+
+
+<div class="DashboardProfileCard-stats">
+<a style="font-size: 18px;
+  padding-top: 3px;
+  font-weight: 500;"href="{{user.posts_link}}" class="DashboardProfileCard--url">
+<span>Notas</span>
+{{user.total_posts}}</a>
+
+<a style="font-size: 18px;
+  padding-top: 3px;
+  font-weight: 500;" href="{{user.following_link}}" class="DashboardProfileCard--url">
+<span>Siguiendo</span>
+{{user.total_following}}</a>
+
+<a style="font-size: 18px;
+  padding-top: 3px;
+  font-weight: 500;" href="{{user.followers_link}}" class="DashboardProfileCard--url">
+<span>Seguidores</span>
+{{user.total_friends}}</a>
+
+</div>
+	</div>
+<!--header-user-profile-->

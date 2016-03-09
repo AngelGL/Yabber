@@ -1,0 +1,53 @@
+{% if title %}
+<div class="topheading"><h2>{{ title }}</h2></div>
+{% endif %}
+
+<div style="margin: 0 20px 20px 20px">
+{% if current_user.user_id && subs %}
+<input name="subs_default" id="subs_default" type="checkbox" value="subs_default"/>
+<label for="subs_default">{% trans _('mostrar suscripciones por defecto en la portada') %}</label>
+<script type="text/javascript">
+    addPostCode(function () {
+        pref_input_check("subs_default");
+    });
+</script>
+
+{% endif %}
+&nbsp;&nbsp;
+[<a href="http://meneame.wikispaces.com/Subs"><b>{% trans _('ayuda') %}</a></b>]</br>
+
+<ul class="plataformas">
+{% for s in subs %}
+
+	<li class="plataforma plataforma">
+            <div class="plataforma-date">
+  				{% exec print_follow_sub s.id as dummy %}
+			</div>
+
+			<div class="plataforma-info">
+			  <a class="plataforma-info--title" href="{{globals.base_url_general}}p/{{ s.name }}">{{ s.name }}</a>
+
+			  {% if s.nsfw %}(nsfw){% endif %}
+				{% if s.owner == current_user.user_id %}
+				&nbsp;[<a href="{{globals.base_url_general}}p/{{ s.name }}/subedit">edit</a>]
+			 {% endif %}
+		     {% if ! s.enabled %}*{% endif %}
+			  <div class="plataforma-info--description">{{ s.name_long|escape }}</div>
+			</div>
+
+		<ul class="plataforma-hosts">
+		  <li class="user plataforma-hosts--host">
+
+		  	{% if s.user_id %}
+				<img width="25" height="25" data-src="{% exec get_avatar_url s.user_id, s.user_avatar, 25, false %}" data-2x="s:-20.:-40." alt="" src="{{ globals.base_static }}img/g.gif" class="tooltip u:{{ s.user_id }} avatar lazy"/>&nbsp;
+				{% else %}
+				<img width="25" height="25" data-src="{% exec get_no_avatar_url 25, false %}" data-2x="s:-20.:-40." alt="" src="{{ globals.base_static }}img/g.gif" class="avatar lazy"/>&nbsp;
+			{% endif %}
+			</a>
+		  </li>
+		</ul>
+
+	</li>
+{% endfor %}
+</ul>
+</div>
